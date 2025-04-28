@@ -2,4 +2,6 @@ npm init -y
 
 npm install express nodemon morgan cors mysql2 mongoose jsonwebtoken bcryptjs dotenv prisma @prisma/client
 
+npm install axios
+
 Node.js Express.js MongoDB Openweathermap
