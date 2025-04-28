@@ -20,7 +20,7 @@ readdirSync('./routes').map((i) => {
     console.log(`Loading route: ${i}`);
     app.use('/api', require('./routes/' + i));
   } catch (err) {
-    console.error(`Error loading route ${i}:`, err);
+    console.log(`Error loading route ${i}:`, err);
   }
 });
 
