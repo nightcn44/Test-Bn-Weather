@@ -6,7 +6,7 @@ exports.getWeatherByCity = async (req, res) => {
 
   try {
     const data = await weatherService.fetchByCity(city);
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -18,7 +18,7 @@ exports.getWeatherByCoords = async (req, res) => {
 
   try {
     const data = await weatherService.fetchByCoords(lat, lon);
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
