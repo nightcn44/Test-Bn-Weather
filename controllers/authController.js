@@ -8,27 +8,33 @@ exports.getAllUsers = async (req, res) => {
 
     res.json(data);
   } catch (err) {
-    res.status(500).json({ error: 'server error' });
+    res.status(500).json({ error: err.message });
+    console.log('');
   }
 };
 
 exports.register = async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
   try {
     const existingUser = await user.findOne({ username });
-
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ message: 'Username is already in use' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new user({ username, password: hashedPassword });
+    const newdata = new user({ username, password: hashedPassword });
 
-    await user.save();
+    await newdata.save();
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: 'Register failed' });
   }
 };
@@ -46,5 +52,6 @@ exports.login = async (req, res) => {
     res.json({ token });
   } catch (err) {
     res.status(500).json({ error: 'Login failed' });
+    console.log('')
   }
 };
