@@ -6,7 +6,7 @@ exports.getAllUsers = async (req, res) => {
   try {
     const data = await user.find({}).exec();
 
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
     console.log('');
@@ -41,17 +41,27 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
   try {
-    const user = await user.findOne({ username });
-    if (!user) return res.status(400).json({ error: 'Username not found' });
+    const data = await user.findOne({ username });
+    if (!data) {
+      return res.status(400).json({ error: 'Username not found' });
+    }
 
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ error: 'Invalid password' });
+    const match = await bcrypt.compare(password, data.password);
+    if (!match) {
+      return res.status(400).json({ error: 'Invalid password' });
+    }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+    const token = jwt.sign({ userId: data._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200).json({ message: 'Login successful', token });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: 'Login failed' });
-    console.log('')
   }
 };
