@@ -1,7 +1,0 @@
-npm init -y
-
-npm install express nodemon morgan cors mongoose jsonwebtoken bcryptjs dotenv
-
-npm install axios
-
-Node.js Express.js MongoDB Openweathermap

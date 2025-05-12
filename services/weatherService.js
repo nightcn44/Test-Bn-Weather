@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 const API_KEY = process.env.WEATHER_API_KEY;
 
 const fetchByCity = async (city) => {
@@ -7,7 +7,9 @@ const fetchByCity = async (city) => {
     const response = await axios.get(url, { timeout: 5000 });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching weather by city');
+    throw new Error(
+      error.response?.data?.message || "Error fetching weather by city"
+    );
   }
 };
 
@@ -17,7 +19,9 @@ const fetchByCoords = async (lat, lon) => {
     const response = await axios.get(url, { timeout: 5000 });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching weather by coordinates');
+    throw new Error(
+      error.response?.data?.message || "Error fetching weather by coordinates"
+    );
   }
 };
 
